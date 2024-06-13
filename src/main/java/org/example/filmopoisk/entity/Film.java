@@ -164,52 +164,5 @@ public class Film {
         private String genre;
     }
 
-//    // Дополнительные методы для обработки вложенных объектов
-//    @Transient
-//    private List<Country> countriesApi;
-//
-//    @Transient
-//    private List<Genre> genresApi;
-
-//    @PostLoad
-//    private void fillTransient() {
-//        if (countriesApi != null) {
-//            countries = countriesApi.stream()
-//                    .map(Country::getCountry)
-//                    .collect(Collectors.toList());
-//        }
-//        if (genresApi != null) {
-//            genres = genresApi.stream()
-//                    .map(Genre::getGenre)
-//                    .collect(Collectors.toList());
-//        }
-//    }
 }
 
-//class Country {
-//    private String country;
-//
-//    // Геттер для поля country
-//    public String getCountry() {
-//        return country;
-//    }
-//
-//    // Сеттер для поля country
-//    public void setCountry(String country) {
-//        this.country = country;
-//    }
-//}
-//
-//class Genre {
-//    private String genre;
-//
-//    // Геттер для поля genre
-//    public String getGenre() {
-//        return genre;
-//    }
-//
-//    // Сеттер для поля genre
-//    public void setGenre(String genre) {
-//        this.genre = genre;
-//    }
-//}

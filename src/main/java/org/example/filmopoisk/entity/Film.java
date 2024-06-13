@@ -1,5 +1,6 @@
 package org.example.filmopoisk.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Getter;
@@ -129,15 +130,46 @@ public class Film {
     @Column(name = "last_sync")
     private String lastSync;
 
+    @Transient
+    private List<Country> countriesApi;
+
+    @Transient
+    private List<Genre> genresApi;
+
     @ElementCollection
     @CollectionTable(name = "movie_countries", joinColumns = @JoinColumn(name = "movie_id"))
     @Column(name = "country")
-    private List<Country> countries;
+    private List<String> countries;
 
     @ElementCollection
     @CollectionTable(name = "movie_genres", joinColumns = @JoinColumn(name = "movie_id"))
     @Column(name = "genre")
-    private List<Genre> genres;
+    private List<String> genres;
+
+
+    @JsonProperty("countries")
+    private void unpackCountries(List<Country> countriesApi) {
+        this.countries = countriesApi.stream()
+                .map(Country::getCountry)
+                .collect(Collectors.toList());
+    }
+
+    @JsonProperty("genres")
+    private void unpackGenres(List<Genre> genresApi) {
+        this.genres = genresApi.stream()
+                .map(Genre::getGenre)
+                .collect(Collectors.toList());
+    }
+
+    @Data
+    public static class Country {
+        private String country;
+    }
+    @Data
+    public static class Genre {
+        private String genre;
+    }
+
 
     @Column(name = "start_year")
     private Integer startYear;
@@ -154,15 +186,6 @@ public class Film {
     @Column(name = "completed")
     private Boolean completed;
 
-    @Data
-    public static class Country {
-        private String country;
-    }
-
-    @Data
-    public static class Genre {
-        private String genre;
-    }
 
 }
 

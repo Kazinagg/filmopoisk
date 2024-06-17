@@ -130,11 +130,11 @@ public class Film {
     @Column(name = "last_sync")
     private String lastSync;
 
-    @Transient
-    private List<Country> countriesApi;
-
-    @Transient
-    private List<Genre> genresApi;
+//    @Transient
+//    private List<Country> countries;
+//
+//    @Transient
+//    private List<Genre> genres;
 
     @ElementCollection
     @CollectionTable(name = "movie_countries", joinColumns = @JoinColumn(name = "movie_id"))

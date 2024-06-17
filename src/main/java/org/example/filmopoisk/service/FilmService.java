@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.http.*;
 
+import java.util.List;
+
 import java.util.Optional;
 
 @Service
@@ -20,6 +22,12 @@ public class FilmService {
         this.filmRepository = filmRepository;
         this.restTemplate = restTemplate;
     }
+
+    public List<Film> getRandomFilms(int quantity) {
+
+        return filmRepository.random(quantity);
+    }
+
 
     public Optional<Film> findFilmByIdOrFetchFromApi(int id) {
         return filmRepository.findById(id)

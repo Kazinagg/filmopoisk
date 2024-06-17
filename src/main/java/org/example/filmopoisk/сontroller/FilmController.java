@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -20,7 +21,7 @@ public class FilmController {
     }
 
 
-    @GetMapping("/{id}")
+    @GetMapping("/id/{id}")
     public ResponseEntity<Film> getFilmById(@PathVariable int id) {
         Optional<Film> film = filmService.findFilmByIdOrFetchFromApi(id);
         if (film.isPresent()) {
@@ -29,5 +30,15 @@ public class FilmController {
             return ResponseEntity.notFound().build();
         }
     }
+    @GetMapping("/random")
+    public ResponseEntity<List<Film>> getRandomFilms(@RequestParam("quantity") int quantity) {
+        List<Film> films = filmService.getRandomFilms(quantity);
+        if (!films.isEmpty()) {
+            return ResponseEntity.ok(films);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
 
 }

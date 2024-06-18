@@ -23,9 +23,8 @@ public class FilmService {
         this.restTemplate = restTemplate;
     }
 
-    public List<Film> getRandomFilms(int quantity) {
-
-        return filmRepository.random(quantity);
+    public List<Film> getRandomFilms() {
+        return filmRepository.random20();
     }
 
 

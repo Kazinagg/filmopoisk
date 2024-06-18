@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/films")
 public class FilmController {
@@ -31,8 +32,8 @@ public class FilmController {
         }
     }
     @GetMapping("/random")
-    public ResponseEntity<List<Film>> getRandomFilms(@RequestParam("quantity") int quantity) {
-        List<Film> films = filmService.getRandomFilms(quantity);
+    public ResponseEntity<List<Film>> getRandomFilms() {
+        List<Film> films = filmService.getRandomFilms();
         if (!films.isEmpty()) {
             return ResponseEntity.ok(films);
         } else {

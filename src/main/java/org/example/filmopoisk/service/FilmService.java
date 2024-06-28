@@ -1,26 +1,23 @@
 package org.example.filmopoisk.service;
 
+import org.example.filmopoisk.client.KinopoiskApiV22Client;
 import org.example.filmopoisk.repository.FilmRepository;
 import org.example.filmopoisk.entity.Film;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
-import org.springframework.http.*;
-
 import java.util.List;
-
 import java.util.Optional;
 
 @Service
 public class FilmService {
 
     private final FilmRepository filmRepository;
-    private final RestTemplate restTemplate;
+    private final KinopoiskApiV22Client kinopoiskApiV22Client;
 
     @Autowired
-    public FilmService(FilmRepository filmRepository, RestTemplate restTemplate) {
+    public FilmService(FilmRepository filmRepository, KinopoiskApiV22Client kinopoiskApiV22Client) {
         this.filmRepository = filmRepository;
-        this.restTemplate = restTemplate;
+        this.kinopoiskApiV22Client = kinopoiskApiV22Client;
     }
 
     public List<Film> getRandomFilms() {
@@ -35,24 +32,14 @@ public class FilmService {
 
 
     private Optional<Film> fetchFilmFromApiAndSave(int id) {
-        String apiUrl = "https://kinopoiskapiunofficial.tech/api/v2.2/films/" + id;
-        HttpHeaders headers = new HttpHeaders();
-        headers.set("X-API-KEY", "aa19d895-3fc5-4792-8747-fbd7b7edf851");
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        HttpEntity<String> entity = new HttpEntity<>(headers);
-
-        ResponseEntity<Film> response = restTemplate.exchange(
-                apiUrl, HttpMethod.GET, entity, Film.class);
-
-        if (response.getStatusCode() == HttpStatus.OK && response.getBody() != null) {
-            Film film = response.getBody();
+        try {
+            Film film = kinopoiskApiV22Client.getFilmById(id);
             filmRepository.save(film);
             return Optional.of(film);
-        } else {
+        } catch (Exception e) {
+            // Обработка исключений, например, если фильм не найден
             return Optional.empty();
         }
     }
 
 }
-
-
